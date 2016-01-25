@@ -133,6 +133,15 @@
           this._container.height);
       this._ctx.fill();
 
+      // Текст с размерами смещаем на deltaX по оси Х (выведено путем подбора)
+      // Аналогично подобрали смещение по У
+      var sizeXY = this._container.width + " x " + this._container.height;
+      var deltaX = -sizeXY.length*4;
+      var deltaY = -(this._resizeConstraint.side/2+10);
+      this._ctx.fillStyle = "#fff";
+      this._ctx.font = 'normal 18px sans-serif';
+      this._ctx.fillText(sizeXY, deltaX, deltaY);
+
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
