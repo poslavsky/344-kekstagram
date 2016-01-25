@@ -119,6 +119,20 @@
           this._resizeConstraint.side - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
+      // задаем цвет и прозрачность фона.
+      // Потом первым идет внутренний прямоугольник(прозрачная область), а за ним прямоугольник фона и его заливка.
+      this._ctx.fillStyle = "rgba(0,0,0,.8)";
+      this._ctx.beginPath();
+      this._ctx.rect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+          this._resizeConstraint.side - this._ctx.lineWidth / 2,
+          this._resizeConstraint.side - this._ctx.lineWidth / 2);
+      this._ctx.rect((-this._container.width / 2+this._container.width),
+          (-this._container.height / 2),
+          -this._container.width,
+          this._container.height);
+      this._ctx.fill();
+
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
