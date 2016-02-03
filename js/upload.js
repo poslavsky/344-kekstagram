@@ -71,10 +71,6 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
-<<<<<<< Updated upstream
-  function resizeFormIsValid() {
-    return true;
-=======
 
    // Находим элементы формы
    var formElement = document.forms['upload-resize'];
@@ -100,15 +96,14 @@
     resizeY.max = currentResizer._image.naturalHeight - resizeSize.value;
 
     var resizeControls = document.querySelector('.upload-resize-controls').elements;
-    for(var i=0; i<resizeControls.length; i++) {
-      if(!resizeControls[i].validity.valid) {
+    for (var i = 0; i < resizeControls.length; i++) {
+      if (!resizeControls[i].validity.valid) {
         valid = false;
         break;
       }
     }
     forwardButton.disabled = !valid;
     return valid;
->>>>>>> Stashed changes
   }
 
   /**
