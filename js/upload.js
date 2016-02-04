@@ -87,7 +87,7 @@
    resizeSize.onchange = resizeFormIsValid;
 
 
-  function resizeFormIsValid() {
+   function resizeFormIsValid() {
     var valid = true;
     resizeX.min = 0;
     resizeY.min = 0;
