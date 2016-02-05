@@ -264,14 +264,20 @@
 
   function addFilter() {
     var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
-    var filtersRadio = docCookies.getItem('filtersRadio');
+    var getRadio = docCookies.getItem('filtersRadio');
     for (var i=0; i<filtersRadio.length; i++) {
-      if (filtersRadio === filtersRadio[i].value) {
+      if (getRadio === filtersRadio[i].value) {
         filtersRadio[i].checked = true;
+        var filterClass = 'filter-' + getRadio;
+        filterImage.className = 'filter-image-preview ' + filterClass;
         break;
       }
     }
   }
+
+  forwardButton.onclick = function() {
+    addFilter();
+  };
 
   /**
    * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
