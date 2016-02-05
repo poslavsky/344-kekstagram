@@ -72,22 +72,22 @@
    * @return {boolean}
    */
 
-   // Находим элементы формы
-   var formElement = document.forms['upload-resize'];
-   var resizeX = formElement['resize-x'];
-   var resizeY = formElement['resize-y'];
-   var resizeSize = formElement['resize-size'];
-   var forwardButton = formElement['resize-fwd'];
+  // Находим элементы формы
+  var formElement = document.forms['upload-resize'];
+  var resizeX = formElement['resize-x'];
+  var resizeY = formElement['resize-y'];
+  var resizeSize = formElement['resize-size'];
+  var forwardButton = formElement['resize-fwd'];
 
-   // Вешаем на интересующие нас три поля обработчик
-   // таким образом при каждом изменении будет вызываться
-   // resizeFormIsValid и производиться валидация
-   resizeX.onchange = resizeFormIsValid;
-   resizeY.onchange = resizeFormIsValid;
-   resizeSize.onchange = resizeFormIsValid;
+  // Вешаем на интересующие нас три поля обработчик
+  // таким образом при каждом изменении будет вызываться
+  // resizeFormIsValid и производиться валидация
+  resizeX.onchange = resizeFormIsValid;
+  resizeY.onchange = resizeFormIsValid;
+  resizeSize.onchange = resizeFormIsValid;
 
 
-   function resizeFormIsValid() {
+  function resizeFormIsValid() {
     var valid = true;
     resizeX.min = 0;
     resizeY.min = 0;
