@@ -71,48 +71,7 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
-  function resizeFormIsValid() {
-    // currentResizer = new Resizer();
-    // currentResizer.setElement(resizeForm);
-    // console.log(currentResizer._image.naturalWidth);
-    // console.log(currentResizer._image.naturalHeight);
-    // console.log(currentResizer.side);
-    var formElement = document.forms['upload-resize'];
-    var resizeXValue = formElement['resize-x'];
-    var resizeYValue = formElement['resize-y'];
-    var resizeSize = formElement['resize-size'];
-    var submitButton = formElement['resize-fwd'];
 
-    // (resizeXValue.value + resizeSize.value) <= currentResizer._image.naturalWidth;
-    // (resizeYValue.value + resizeSize.value) <= currentResizer._image.naturalHeight;
-    // resizeXValue.min = 0;
-    // resizeYValue.min = 0;
-
-    // function setXYValueAndSize(resizeXValue, resizeXValue, resizeSize) {
-    //   if ((resizeXValue.value + resizeSize.value) <= currentResizer._image.naturalWidth ||
-    //   (resizeYValue.value + resizeSize.value) <= currentResizer._image.naturalHeight;) {
-    //     return submitButton.disablet=true;
-    //   } else {
-    //     return submitButton.disablet=false;
-    //   }
-    // }
-    resizeXValue.onchange = function () {
-        if ((resizeXValue.value + resizeSize.value) > currentResizer._image.naturalWidth || resizeXValue.value < 0) {
-          return false;
-        } else {
-          return true;
-        }
-    }
-    resizeYValue.onchange = function () {
-        if ((resizeYValue.value + resizeSize.value) > currentResizer._image.naturalHeight || resizeYValue.value < 0) {
-          return false;
-        } else {
-          return true;
-        }
-    }
-
-
-  }
 
   /**
    * Форма загрузки изображения.
