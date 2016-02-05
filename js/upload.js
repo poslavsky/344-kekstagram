@@ -185,6 +185,7 @@
 
           currentResizer = new Resizer(fileReader.result);
           currentResizer.setElement(resizeForm);
+
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
@@ -244,6 +245,34 @@
     resizeForm.classList.remove('invisible');
   };
 
+
+
+  //Сохраняем последний выбранный фильтр в куки
+  //Устанавливаем срок жизни кук - кол-во дней, прошедших с моего др
+  //Находим элементы, отвечающие за переключенеи фильтров и делаем по ним перебор
+  //Когда перебор находить чекед элемент, закидываем его куки.
+  function cookieSave() {
+    var dateToExpire = Math.round((new Date() - new Date('2015-11-22'))/24/60/60/1000);
+    var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
+    for (var i=0; i<filtersRadio.length; i++) {
+      if (filtersRadio[i].checked) {
+        docCookies.setItem('filtersRadio', filtersRadio[i].value, dateToExpire);
+        break;
+      }
+    }
+  }
+
+  function addFilter() {
+    var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
+    var filtersRadio = docCookies.getItem('filtersRadio');
+    for (var i=0; i<filtersRadio.length; i++) {
+      if (filtersRadio === filtersRadio[i].value) {
+        filtersRadio[i].checked = true;
+        break;
+      }
+    }
+  }
+
   /**
    * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
    * записав сохраненный фильтр в cookie.
@@ -251,7 +280,7 @@
    */
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
-
+    cookieSave();
     cleanupResizer();
     updateBackground();
 
