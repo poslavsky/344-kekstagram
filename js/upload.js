@@ -72,6 +72,39 @@
    * @return {boolean}
    */
 
+  // Находим элементы формы
+  var formElement = document.forms['upload-resize'];
+  var resizeX = formElement['resize-x'];
+  var resizeY = formElement['resize-y'];
+  var resizeSize = formElement['resize-size'];
+  var forwardButton = formElement['resize-fwd'];
+
+  // Вешаем на интересующие нас три поля обработчик
+  // таким образом при каждом изменении будет вызываться
+  // resizeFormIsValid и производиться валидация
+  resizeX.onchange = resizeFormIsValid;
+  resizeY.onchange = resizeFormIsValid;
+  resizeSize.onchange = resizeFormIsValid;
+
+
+  function resizeFormIsValid() {
+    var valid = true;
+    resizeX.min = 0;
+    resizeY.min = 0;
+    resizeSize.min = 0;
+    resizeX.max = currentResizer._image.naturalWidth - resizeSize.value;
+    resizeY.max = currentResizer._image.naturalHeight - resizeSize.value;
+
+    var resizeControls = document.querySelector('.upload-resize-controls').elements;
+    for (var i = 0; i < resizeControls.length; i++) {
+      if (!resizeControls[i].validity.valid) {
+        valid = false;
+        break;
+      }
+    }
+    forwardButton.disabled = !valid;
+    return valid;
+  }
 
   /**
    * Форма загрузки изображения.

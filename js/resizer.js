@@ -122,14 +122,13 @@
       // задаем цвет и прозрачность фона.
       // Потом первым идет внутренний прямоугольник(прозрачная область), а за ним прямоугольник фона и его заливка.
       // Для внутреннего прямоугольника добавил поправку на ширину рамки this._ctx.lineWidth
-      this._ctx.fillStyle = "rgba(0,0,0,.8)";
+      this._ctx.fillStyle = 'rgba(0,0,0,.8)';
       this._ctx.beginPath();
-      var sideInner =
-      this._ctx.rect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - this._ctx.lineWidth/2,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - this._ctx.lineWidth/2,
+      this._ctx.rect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - this._ctx.lineWidth / 2,
+          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2 + this._ctx.lineWidth,
           this._resizeConstraint.side - this._ctx.lineWidth / 2 + this._ctx.lineWidth);
-      this._ctx.rect((-this._container.width / 2+this._container.width),
+      this._ctx.rect((-this._container.width / 2 + this._container.width),
           (-this._container.height / 2),
           -this._container.width,
           this._container.height);
@@ -137,10 +136,10 @@
 
       // Текст с размерами смещаем на deltaX по оси Х (measureText().width)
       // Аналогично подобрали смещение по У (расположение подобрано)
-      var sizeXY = this._container.width + " x " + this._container.height;
+      var sizeXY = this._container.width + ' x ' + this._container.height;
       var deltaX = -this._ctx.measureText(sizeXY).width;
-      var deltaY = -(this._resizeConstraint.side/2+10);
-      this._ctx.fillStyle = "#fff";
+      var deltaY = -(this._resizeConstraint.side / 2 + 10);
+      this._ctx.fillStyle = '#fff';
       this._ctx.font = 'normal 18px sans-serif';
       this._ctx.fillText(sizeXY, deltaX, deltaY);
 
