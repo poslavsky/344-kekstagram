@@ -252,11 +252,12 @@
   //Находим элементы, отвечающие за переключенеи фильтров и делаем по ним перебор
   //Когда перебор находить чекед элемент, закидываем его куки.
   function cookieSave() {
-    var dateToExpire = Math.round((new Date() - new Date('2015-11-22'))/24/60/60/1000);
+    //Сохраняем в переменную кол-во дней, прошедших с др, затем с помощью Date() это форматнется в дату сгорания кук
+    var dayToExpire = Math.round((new Date() - new Date('2015-11-22')) / 24 / 60 / 60 / 1000);
     var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
-    for (var i=0; i<filtersRadio.length; i++) {
+    for (var i = 0; i < filtersRadio.length; i++) {
       if (filtersRadio[i].checked) {
-        docCookies.setItem('filtersRadio', filtersRadio[i].value, dateToExpire);
+        docCookies.setItem('filtersRadio', filtersRadio[i].value, Date(dayToExpire));
         break;
       }
     }
@@ -265,7 +266,7 @@
   function addFilter() {
     var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
     var getRadio = docCookies.getItem('filtersRadio');
-    for (var i=0; i<filtersRadio.length; i++) {
+    for (var i = 0; i < filtersRadio.length; i++) {
       if (getRadio === filtersRadio[i].value) {
         filtersRadio[i].checked = true;
         var filterClass = 'filter-' + getRadio;
