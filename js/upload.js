@@ -135,6 +135,8 @@
    */
   var uploadMessage = document.querySelector('.upload-message');
 
+  //Находим элементы, отвечающие за переключение фильтров
+  var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
   /**
    * @param {Action} action
    * @param {string=} message
@@ -246,26 +248,28 @@
     resizeForm.classList.remove('invisible');
   };
 
-
-
   //Сохраняем последний выбранный фильтр в куки
   //Устанавливаем срок жизни кук - кол-во дней, прошедших с моего др
   //Находим элементы, отвечающие за переключенеи фильтров и делаем по ним перебор
-  //Когда перебор находить чекед элемент, закидываем его куки.
+  //Когда перебор находить чекед элемент, закидываем его в куки.
   function cookieSave() {
-    //Сохраняем в переменную кол-во дней, прошедших с др, затем с помощью Date() это форматнется в дату сгорания кук
-    var dayToExpire = Math.round((new Date() - new Date('2015-11-22')) / 24 / 60 / 60 / 1000);
-    var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
+    var oneday = 1000 * 60 * 60 * 24;
+    var today = new Date();
+    var currentYear = today.getFullYear();
+    var lastBirthday = new Date(currentYear, 10, 22);
+    var passed = (today.getTime() - lastBirthday.getTime());
+    var daysFromToday = Math.floor(passed / oneday);
+    daysFromToday = daysFromToday > 0 ? daysFromToday = daysFromToday : daysFromToday = daysFromToday + 365;
+    var expire = today.getTime() + new Date(daysFromToday * oneday).getTime();
     for (var i = 0; i < filtersRadio.length; i++) {
       if (filtersRadio[i].checked) {
-        docCookies.setItem('filtersRadio', filtersRadio[i].value, Date(dayToExpire));
+        docCookies.setItem('filtersRadio', filtersRadio[i].value, Date(expire));
         break;
       }
     }
   }
 
   function addFilter() {
-    var filtersRadio = document.querySelectorAll('.upload-filter-controls input');
     var getRadio = docCookies.getItem('filtersRadio');
     for (var i = 0; i < filtersRadio.length; i++) {
       if (getRadio === filtersRadio[i].value) {
