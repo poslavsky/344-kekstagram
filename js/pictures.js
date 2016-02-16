@@ -4,6 +4,9 @@
 
 (function() {
   var container = document.querySelector('.pictures');
+  var template = document.querySelector('#picture-template');
+  var filters = document.querySelector('.filters');
+  filters.classList.add('hidden');
 
   pictures.forEach(function(picture) {
     var element = getElementFromTemplate(picture);
@@ -11,9 +14,9 @@
   });
 
   function getElementFromTemplate(data) {
-    var template = document.querySelector('#picture-template');
+    var element;
     if ('content' in template) {
-      var element = template.content.children[0].cloneNode(true);
+      element = template.content.childNodes[1].cloneNode(true);
     } else {
       element = template.children[0].cloneNode(true);
     }
@@ -27,7 +30,7 @@
 
     backgroundImage.onload = function() {
       clearTimeout(imageLoadTimeout);
-      element.style.backgroundImage = 'url(\'' + backgroundImage.src + '\')';
+      //можно сделать и фоном: element.style.backgroundImage = 'url(\'' + backgroundImage.src + '\')';
       element.replaceChild(backgroundImage, templateImg);
     };
 
@@ -45,4 +48,5 @@
 
     return element;
   }
+  filters.classList.remove('hidden');
 })();
