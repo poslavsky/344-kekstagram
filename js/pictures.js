@@ -8,10 +8,69 @@
   var filters = document.querySelector('.filters');
   filters.classList.add('hidden');
 
-  pictures.forEach(function(picture) {
-    var element = getElementFromTemplate(picture);
-    container.appendChild(element);
-  });
+  function setActiveFilter(pictures) {
+    var filtersElements = document.querySelector('.filters').elements;
+    for (var i = 0; i < filtersElements.length; i++) {
+      if (filtersElements[i].checked) {
+        var id = filtersElements[i].id;
+        var sortPictures = pictures.slice(0);
+        switch (id) {
+          case "filter-new":
+            sortPictures = sortPictures.sort(function(a, b) {
+              return Date.parse(a.date) - Date.parse(b.date);
+            });
+            break;
+          case "filter-discussed":
+            sortPictures = sortPictures.sort(function(a, b) {
+              return a.comments - b.comments;
+            });
+            break;
+          default:
+            return sortPictures;
+            break;
+        }
+      }
+      renderPhoto(sortPictures);
+    }
+  }
+
+  getPhoto();
+
+  function renderPhoto(pictures) {
+    container.innerHTML = '';
+    pictures.forEach(function(picture) {
+      var element = getElementFromTemplate(picture);
+      container.appendChild(element);
+    });
+  }
+
+  function getPhoto() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '//o0.github.io/assets/json/pictures.json');
+    xhr.onloadstart = function() {
+      container.classList.add('pictures-loading');
+    };
+
+    xhr.onload = function(evt) {
+      container.classList.remove('pictures-loading');
+      var rawData = evt.target.response;
+
+      var loadedPhoto = JSON.parse(rawData);
+      setActiveFilter(loadedPhoto);
+      console.log(setActiveFilter(loadedPhoto));
+      //renderPhoto(loadedPhoto);
+    }
+    xhr.send();
+
+    xhr.onerror = function() {
+      container.classList.add('pictures-failure');
+    };
+    xhr.timeout = 10000;
+    xhr.ontimeout = function() {
+      container.classList.add('pictures-failure');
+    }
+  }
+
 
   function getElementFromTemplate(data) {
     var element;
@@ -26,25 +85,9 @@
 
     var backgroundImage = new Image(182, 182);
     var templateImg = element.querySelector('img');
-    var imageLoadTimeout;
 
-    backgroundImage.onload = function() {
-      clearTimeout(imageLoadTimeout);
-      //можно сделать и фоном: element.style.backgroundImage = 'url(\'' + backgroundImage.src + '\')';
-      element.replaceChild(backgroundImage, templateImg);
-    };
-
-    backgroundImage.onerror = function() {
-      element.classList.add('picture-load-failure');
-    };
+    element.replaceChild(backgroundImage, templateImg);
     backgroundImage.src = data.url;
-
-    var IMAGE_TIMEOUT = 10000;
-
-    imageLoadTimeout = setTimeout(function() {
-      backgroundImage.src = '';
-      element.classList.add('picture-load-failure');
-    }, IMAGE_TIMEOUT);
 
     return element;
   }
