@@ -3,36 +3,44 @@
 'use strict';
 
 (function() {
-  var container = document.querySelector('.pictures');
-  var template = document.querySelector('#picture-template');
-  var filters = document.querySelector('.filters');
-  filters.classList.add('hidden');
+    var container = document.querySelector('.pictures');
+    var template = document.querySelector('#picture-template');
+    var filters = document.querySelector('.filters');
+    var filtersElements = document.querySelectorAll('.filters-item');
+    var pictures = [];
+//    var activeFilter = 'filter-popular';
+    filters.classList.add('hidden');
 
-  function setActiveFilter(pictures) {
-    var filtersElements = document.querySelector('.filters').elements;
     for (var i = 0; i < filtersElements.length; i++) {
-      if (filtersElements[i].checked) {
-        var id = filtersElements[i].id;
-        var sortPictures = pictures.slice(0);
-        switch (id) {
-          case "filter-new":
-            sortPictures = sortPictures.sort(function(a, b) {
-              return Date.parse(a.date) - Date.parse(b.date);
-            });
-            break;
-          case "filter-discussed":
-            sortPictures = sortPictures.sort(function(a, b) {
-              return a.comments - b.comments;
-            });
-            break;
-          default:
-            return sortPictures;
-            break;
-        }
+      filtersElements[i].onclick = function(e) {
+        var clickedElementID = e.target.htmlFor;
+        console.log(clickedElementID);
+        setActiveFilter(clickedElementID);
+      };
+    }
+
+    function setActiveFilter(id) {
+      // if (activeFilter === id) {
+      //   return;
+      // }
+      var sortPictures = pictures.slice(0);
+      switch (id) {
+        case "filter-new":
+          sortPictures = sortPictures.sort(function(a, b) {
+            return Date.parse(a.date) - Date.parse(b.date);
+          });
+          break;
+        case "filter-discussed":
+          sortPictures = sortPictures.sort(function(a, b) {
+            return a.comments - b.comments;
+          });
+          break;
+        default:
+          sortPictures;
+          break;
       }
       renderPhoto(sortPictures);
     }
-  }
 
   getPhoto();
 
@@ -56,9 +64,8 @@
       var rawData = evt.target.response;
 
       var loadedPhoto = JSON.parse(rawData);
-      setActiveFilter(loadedPhoto);
-      console.log(setActiveFilter(loadedPhoto));
-      //renderPhoto(loadedPhoto);
+      renderPhoto(loadedPhoto);
+      //setActiveFilter(loadedPhoto);
     }
     xhr.send();
 
