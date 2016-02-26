@@ -4,19 +4,23 @@
   var container = document.querySelector('.pictures');
   var template = document.querySelector('#picture-template');
   var filters = document.querySelector('.filters');
-  var filtersButton = document.querySelectorAll('.filters-item');
+  //var filtersButton = document.querySelectorAll('.filters-item');
   var pictures = [];
+  var filteredPictures = [];
+  var currentPage = 0;
+  var PAGE_SIZE = 12;
+
   filters.classList.add('hidden');
 
-  for (var i = 0; i < filtersButton.length; i++) {
-    filtersButton[i].onclick = function(e) {
-      var clickedElementFor = e.target.htmlFor;
-      setActiveFilter(clickedElementFor);
-    };
-  }
+  filters.addEventListener('click', function(e) {
+    var clickedElementFor = e.target;
+    if (clickedElementFor.classList.contains('filters-item')) {
+      setActiveFilter(clickedElementFor.htmlFor);
+    }
+  });
 
   function setActiveFilter(forID) {
-    var filteredPictures = pictures.slice(0);
+    filteredPictures = pictures.slice(0);
     switch (forID) {
       case 'filter-new':
         var twoWeeks = new Date() - 2 * 14 * 24 * 60 * 60 * 100;
@@ -32,15 +36,40 @@
         });
         break;
     }
-    renderPictures(filteredPictures);
+    currentPage = 0;
+    renderPictures(filteredPictures, 0, true);
+    scrollHandler(filteredPictures);
+  }
+
+  function scrollHandler(tt) {
+    var scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        var bottomCoordinates = document.querySelector('body').getBoundingClientRect();
+        var viewportSize = window.innerHeight;
+
+        if (bottomCoordinates.bottom === viewportSize) {
+          if (currentPage < Math.ceil(tt.length / PAGE_SIZE)) {
+            renderPictures(tt, ++currentPage);
+          }
+        }
+      }, 100);
+    });
   }
 
   getPictures();
 
-  function renderPictures(picturesArray) {
-    container.innerHTML = '';
+  function renderPictures(picturesArray, pageNumber, replace) {
+    if (replace) {
+      container.innerHTML = '';
+    }
+
     var fragment = document.createDocumentFragment();
-    picturesArray.forEach(function(picture) {
+    var from = pageNumber * PAGE_SIZE;
+    var to = from + PAGE_SIZE;
+    var pagePictures = picturesArray.slice(from, to);
+    pagePictures.forEach(function(picture) {
       var element = getElementFromTemplate(picture);
       fragment.appendChild(element);
     });
@@ -58,7 +87,8 @@
       var rawData = e.target.response;
       var loadedPictures = JSON.parse(rawData);
       pictures = loadedPictures;
-      renderPictures(loadedPictures);
+      renderPictures(loadedPictures, 0);
+      scrollHandler(loadedPictures);
     };
 
     xhr.send();
