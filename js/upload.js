@@ -269,42 +269,6 @@
     resizeForm.classList.remove('invisible');
   });
 
-  //Сохраняем последний выбранный фильтр в куки
-  //Устанавливаем срок жизни кук - кол-во дней, прошедших с моего др
-  //Находим элементы, отвечающие за переключенеи фильтров и делаем по ним перебор
-  //Когда перебор находить чекед элемент, закидываем его в куки.
-  function cookieSave() {
-    var oneday = 1000 * 60 * 60 * 24;
-    var today = new Date();
-    var currentYear = today.getFullYear();
-    var lastBirthday = new Date(currentYear, 10, 22);
-    var passed = (today.getTime() - lastBirthday.getTime());
-    var daysFromToday = Math.floor(passed / oneday);
-    daysFromToday = daysFromToday > 0 ? daysFromToday = daysFromToday : daysFromToday = daysFromToday + 365;
-    var expire = today.getTime() + new Date(daysFromToday * oneday).getTime();
-    for (var i = 0; i < filtersRadio.length; i++) {
-      if (filtersRadio[i].checked) {
-        docCookies.setItem('filtersRadio', filtersRadio[i].value, Date(expire));
-        break;
-      }
-    }
-  }
-
-  function addFilter() {
-    var getRadio = docCookies.getItem('filtersRadio');
-    for (var i = 0; i < filtersRadio.length; i++) {
-      if (getRadio === filtersRadio[i].value) {
-        filtersRadio[i].checked = true;
-        var filterClass = 'filter-' + getRadio;
-        filterImage.className = 'filter-image-preview ' + filterClass;
-        break;
-      }
-    }
-  }
-
-  forwardButton.addEventListener('click', function() {
-    addFilter();
-  });
 
   //Сохраняем последний выбранный фильтр в куки
   //Устанавливаем срок жизни кук - кол-во дней, прошедших с моего др
