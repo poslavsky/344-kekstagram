@@ -173,9 +173,9 @@
     var changeInpitValue = document.createEvent('customEvent');
     changeInpitValue.initCustomEvent('resizerchange', false, false, {});
     window.addEventListener('resizerchange', function() {
-      resizeX.value = currentResizer.getConstraint().x;
-      resizeY.value = currentResizer.getConstraint().y;
-      resizeSize.value = currentResizer.getConstraint().side;
+      resizeX.value = Math.round(currentResizer.getConstraint().x);
+      resizeY.value = Math.round(currentResizer.getConstraint().y);
+      resizeSize.value = Math.round(currentResizer.getConstraint().side);
     });
     window.dispatchEvent(changeInpitValue);
   }
