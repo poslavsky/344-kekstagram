@@ -168,17 +168,14 @@
     uploadMessage.classList.add('invisible');
   }
 
-
   function resizeFormSetInput() {
-    var changeInpitValue = document.createEvent('customEvent');
-    changeInpitValue.initCustomEvent('resizerchange', false, false, {});
-    window.addEventListener('resizerchange', function() {
-      resizeX.value = Math.round(currentResizer.getConstraint().x);
-      resizeY.value = Math.round(currentResizer.getConstraint().y);
-      resizeSize.value = Math.round(currentResizer.getConstraint().side);
-    });
-    window.dispatchEvent(changeInpitValue);
+    var currentResize = currentResizer.getConstraint();
+    resizeX.value = Math.round(currentResize.x);
+    resizeY.value = Math.round(currentResize.y);
+    resizeSize.value = Math.round(currentResize.side);
   }
+
+  window.addEventListener('resizerchange', resizeFormSetInput);
 
   resizeForm.addEventListener('input', function() {
     currentResizer.setConstraint(+resizeX.value, +resizeY.value, +resizeSize.value);
@@ -215,7 +212,6 @@
           resizeForm.classList.remove('invisible');
 
           hideMessage();
-          resizeFormSetInput();
         };
 
         fileReader.readAsDataURL(element.files[0]);
