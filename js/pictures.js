@@ -66,11 +66,16 @@
 
   getPictures();
 
+  function onGalleryClickHandler(e) {
+    e.preventDefault();
+    gallery.show();
+  }
+
   function renderPictures(pageNumber, replace) {
     if (replace) {
       [].forEach.call(container.childNodes, function(element) {
         container.removeChild(element);
-        element.removeEventListener('click', _onClick);
+        element.removeEventListener('click', onGalleryClickHandler);
       });
     }
 
@@ -81,7 +86,7 @@
     pagePictures.forEach(function(picture) {
       var photoElement = new Photo(picture);
       photoElement.render();
-      // var element = getElementFromTemplate(picture);
+      photoElement.element.addEventListener('click', onGalleryClickHandler);
       fragment.appendChild(photoElement.element);
     });
     container.appendChild(fragment);
