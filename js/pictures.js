@@ -67,7 +67,6 @@
 
   function renderPictures(pageNumber, replace) {
     if (replace) {
-      container.innerHTML = '';
       [].forEach.call(container.childNodes, function(element) {
         container.removeChild(element);
       });
