@@ -1,5 +1,4 @@
-
-
+'use strict';
 
 (function() {
   function Photo(data) {

@@ -1,16 +1,14 @@
+/* global Photo: true */
 'use strict';
 
 (function() {
   var container = document.querySelector('.pictures');
-  var template = document.querySelector('#picture-template');
   var filters = document.querySelector('.filters');
-  //var filtersButton = document.querySelectorAll('.filters-item');
   var activeFilter = 'filter-popular';
   var pictures = [];
   var filteredPictures = [];
   var currentPage = 0;
   var PAGE_SIZE = 12;
-
 
   filters.classList.add('hidden');
 
@@ -70,6 +68,9 @@
   function renderPictures(pageNumber, replace) {
     if (replace) {
       container.innerHTML = '';
+      [].forEach.call(container.childNodes, function(element) {
+        container.removeChild(element);
+      });
     }
 
     var fragment = document.createDocumentFragment();
