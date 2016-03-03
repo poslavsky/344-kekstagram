@@ -21,8 +21,7 @@
       this.element.replaceChild(backgroundImage, templateImg);
     }.bind(this);
     backgroundImage.onerror = function() {
-      this.element.replaceChild(backgroundImage, templateImg);
-      backgroundImage.parentElement.classList.add('picture-load-failure');
+      this.element.classList.add('picture-load-failure');
     }.bind(this);
 
     this.element.querySelector('.picture-comments').textContent = this._data.comments;

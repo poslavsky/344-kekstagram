@@ -1,4 +1,4 @@
-/* global Photo: true */
+/* global Photo: true, Gallery: true */
 'use strict';
 
 (function() {
@@ -9,6 +9,7 @@
   var filteredPictures = [];
   var currentPage = 0;
   var PAGE_SIZE = 12;
+  var gallery = new Gallery();
 
   filters.classList.add('hidden');
 
@@ -67,9 +68,9 @@
 
   function renderPictures(pageNumber, replace) {
     if (replace) {
-      container.innerHTML = '';
       [].forEach.call(container.childNodes, function(element) {
         container.removeChild(element);
+        element.removeEventListener('click', _onClick);
       });
     }
 
