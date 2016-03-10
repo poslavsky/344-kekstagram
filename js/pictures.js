@@ -37,6 +37,7 @@
         });
         break;
     }
+		gallery.setPictures(filteredPictures);
     currentPage = 0;
     renderPictures(0, true);
   }
@@ -66,10 +67,10 @@
 
   getPictures();
 
-  function onGalleryClickHandler(e) {
-    e.preventDefault();
-    gallery.show();
-  }
+  // function onGalleryClickHandler(e) {
+  //   e.preventDefault();
+  //   gallery.show();
+  // }
 
   function renderPictures(pageNumber, replace) {
     if (replace) {
@@ -83,10 +84,16 @@
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     var pagePictures = filteredPictures.slice(from, to);
-    pagePictures.forEach(function(picture) {
+    pagePictures.forEach(function(picture, number) {
       var photoElement = new Photo(picture);
       photoElement.render();
-      photoElement.element.addEventListener('click', onGalleryClickHandler);
+			photoElement.onClick = function() {
+				gallery.setCurrentPicture(number);
+        gallery.show();
+      };
+
+      //photoElement.element.addEventListener('click', onGalleryClickHandler);
+
       fragment.appendChild(photoElement.element);
     });
     container.appendChild(fragment);
