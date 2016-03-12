@@ -28,6 +28,19 @@
     this.element.querySelector('.picture-likes').textContent = this._data.likes;
     backgroundImage.src = this._data.url;
 
+    this.element.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (this.element.classList.contains('picture') &&
+        !this.element.classList.contains('picture-load-failure')) {
+        if (typeof this.onClick === 'function') {
+          this.onClick();
+        }
+      }
+    }.bind(this));
+
   };
+
+  Photo.prototype.onClick = null;
+
   window.Photo = Photo;
 })();
