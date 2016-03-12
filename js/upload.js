@@ -8,7 +8,8 @@
 
 'use strict';
 
-(function() {
+var Resizer = require('resizer');
+
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -347,4 +348,3 @@
 
   cleanupResizer();
   updateBackground();
-})();

@@ -1,7 +1,8 @@
-/* global Photo: true, Gallery: true */
 'use strict';
 
-(function() {
+var Gallery = require('./gallery');
+var Photo = require('./photo');
+
   var container = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
   var activeFilter = 'filter-popular';
@@ -128,4 +129,3 @@
   //
   // }
   filters.classList.remove('hidden');
-})();

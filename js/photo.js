@@ -1,6 +1,5 @@
 'use strict';
 
-(function() {
   function Photo(data) {
     this._data = data;
   }
@@ -29,5 +28,5 @@
     backgroundImage.src = this._data.url;
 
   };
-  window.Photo = Photo;
-})();
+
+module.exports = Photo;
