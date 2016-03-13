@@ -5,7 +5,7 @@ var Photo = require('./photo');
 
   var container = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
-  var activeFilter = 'filter-popular';
+  var activeFilter = localStorage.getItem('activeFilter') || 'filter-popular';
   var pictures = [];
   var filteredPictures = [];
   var currentPage = 0;
@@ -22,6 +22,7 @@ var Photo = require('./photo');
   });
 
   function setActiveFilter(forID) {
+    localStorage.setItem('activeFilter', forID);
     filteredPictures = pictures.slice(0);
     switch (forID) {
       case 'filter-new':
@@ -116,7 +117,9 @@ var Photo = require('./photo');
         console.log('Обработка ошибки ответа сервера');
       }
       pictures = loadedPictures;
+      console.log(activeFilter);
       setActiveFilter(activeFilter);
+      document.getElementById(activeFilter).checked = true;
       renderPictures(0);
     };
 
