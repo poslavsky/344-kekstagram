@@ -23,6 +23,7 @@ Gallery.prototype.hide = function() {
   this._closeButton.removeEventListener('click', this._onCloseClick);
   this._img.removeEventListener('click', this._onPhotoClick);
   window.removeEventListener('keydown', this._onDocumentKeyDown);
+  location.hash = '';
 };
 
 Gallery.prototype._onCloseClick = function() {
@@ -30,10 +31,11 @@ Gallery.prototype._onCloseClick = function() {
 };
 
 Gallery.prototype._onPhotoClick = function(e) {
-  if (e.target.className !== 'gallery-overlay-image' || this.currentPicture >= this.picturesLength - 1) {
-    return;
-  }
-  this.setCurrentPicture(++this.currentPicture);
+  // if (e.target.className !== 'gallery-overlay-image' || this.currentPicture >= this.picturesLength - 1) {
+  //   return;
+  // }
+  // this.setCurrentPicture(++this.currentPicture);
+  location.hash = 'photo/' + store.getNextItem(this.number).url;
 };
 
 Gallery.prototype._onDocumentKeyDown = function(e) {
@@ -45,9 +47,39 @@ Gallery.prototype._onDocumentKeyDown = function(e) {
 Gallery.prototype.setPictures = function(pictures) {
   this.pictures = pictures;
   this.picturesLength = this.pictures.length;
+
+  window.addEventListener('hashchange', this._toggleShowGallery.bind(this));
+};
+
+Gallery.prototype._toggleShowGallery = function() {
+  var hash = location.hash.match(/#photo\/(\S+)/);
+  if (hash === null) {
+    this.hide();
+  } else {
+    this.setCurrentPicture(hash[0].replace('#photo/', ''));
+    this.show();
+  }
 };
 
 Gallery.prototype.setCurrentPicture = function(number) {
+  var typeOfArg = typeof(number);
+  if (typeOfArg === 'string') {
+    var pictureFound = false;
+    for (var i = 0; i < this.picturesLength; i++) {
+      pictureFound = (this.pictures[i].url === currentPicture);
+      if (pictureFound) {
+        currentPicture = i;
+        break;
+      }
+    }
+  };
+
+  //переключение фото
+
+  Gallery.prototype._changePicture = function(number) {
+    location.hash = '#photo/' + this.pictures[number].url;
+  };
+
   var _pictures = this.pictures[number];
   this.picturesLength = this.pictures.length;
   document.querySelector('.gallery-overlay-image').src = _pictures.url;
